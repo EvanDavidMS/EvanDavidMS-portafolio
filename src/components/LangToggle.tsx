@@ -7,7 +7,13 @@ import { cn } from "@/lib/utils";
  * Compact ES/EN segmented control. The active language sits on a filled pill
  * that slides between the two options.
  */
-export function LangToggle({ className }: { className?: string }) {
+export function LangToggle({
+  className,
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
   const { lang, setLang, t } = useI18n();
   const options: Lang[] = ["es", "en"];
 
@@ -15,6 +21,7 @@ export function LangToggle({ className }: { className?: string }) {
     <div
       role="group"
       aria-label={t.nav.langLabel}
+      style={style}
       className={cn(
         "relative grid grid-cols-2 items-center rounded-full border border-[rgb(var(--tint)/0.1)] bg-[rgb(var(--tint)/0.02)] p-[3px] text-[11px] font-semibold",
         className

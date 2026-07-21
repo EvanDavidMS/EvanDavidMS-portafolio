@@ -195,6 +195,19 @@ body {
   }
 }
 
+/* Each nav element sweeps in (fade + slide from the left) after the pill starts
+   its drop, staggered left→right via per-item animation-delay set inline. */
+@keyframes emNavItemIn {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @keyframes emDrift {
   0% {
     transform: translate(0, 0);
@@ -315,6 +328,12 @@ body {
   animation: emNavIn 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) 1.6s both;
 }
 
+.animate-em-nav-item {
+  /* the per-item `animation-delay` is set inline in Navbar.tsx (base ~1.7s so
+     items reveal as the pill drops), sweeping left→right */
+  animation: emNavItemIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 .animate-em-flip {
   display: inline-block;
   animation: emFlipIn 0.5s ease forwards;
@@ -335,6 +354,7 @@ body {
    the entrance classes are paused; the loader's own spin/pulse keep going. */
 html.is-loading .animate-in,
 html.is-loading .animate-em-nav,
+html.is-loading .animate-em-nav-item,
 html.is-loading .animate-em-word,
 html.is-loading .animate-em-flip,
 html.is-loading .animate-em-spotlight {
@@ -358,6 +378,10 @@ html.is-loading .animate-em-spotlight {
     animation: none;
   }
   .animate-em-nav {
+    animation: none;
+  }
+  .animate-em-nav-item {
+    opacity: 1;
     animation: none;
   }
   .animate-em-ping {

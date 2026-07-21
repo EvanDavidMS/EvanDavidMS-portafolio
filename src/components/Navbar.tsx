@@ -21,6 +21,13 @@ export default function Navbar() {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
+  // Left→right stagger for the nav's contents: each element reveals with a
+  // small fade+slide, timed to sweep across the bar as the pill drops in. The
+  // base (~1.7s) lines up with the pill's drop; step 0.06s per item.
+  const sweep = (i: number) => ({
+    animationDelay: `${(1.7 + i * 0.06).toFixed(2)}s`,
+  });
+
   // Lock body scroll + close on Escape while the mobile menu is open.
   useEffect(() => {
     if (!open) return;
@@ -38,7 +45,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="animate-em-nav fixed top-[22px] left-1/2 -translate-x-1/2 z-50 w-[min(1120px,calc(100%-32px))] flex items-center justify-between gap-3 py-2 pl-3 pr-2 rounded-full border border-[rgb(var(--tint)/0.08)] bg-[rgb(var(--c-surf-rgb)/0.6)] backdrop-blur-lg backdrop-saturate-150 shadow-[0_10px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgb(var(--tint)/0.06)]">
+      <nav className="animate-em-nav fixed top-[22px] left-1/2 -translate-x-1/2 z-50 w-[min(1120px,calc(100%-24px))] sm:w-[min(1120px,calc(100%-32px))] flex items-center justify-between gap-2 sm:gap-3 py-2 pl-2 pr-2 sm:pl-3 rounded-full border border-[rgb(var(--tint)/0.08)] bg-[rgb(var(--c-surf-rgb)/0.6)] backdrop-blur-lg backdrop-saturate-150 shadow-[0_10px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgb(var(--tint)/0.06)]">
         {/* reading progress line */}
         <div className="absolute left-3 right-3 bottom-[3px] h-[2px] rounded-full overflow-hidden pointer-events-none">
           <div
@@ -50,9 +57,10 @@ export default function Navbar() {
         {/* left: logo cluster */}
         <a
           href="#top"
-          className="flex items-center gap-[11px] px-1.5 py-1 rounded-full shrink-0"
+          style={sweep(0)}
+          className="animate-em-nav-item flex items-center gap-2 min-[380px]:gap-[11px] px-1 min-[380px]:px-1.5 py-1 rounded-full shrink-0"
         >
-          <span className="relative grid place-items-center w-9 h-9 overflow-hidden rounded-xl border border-[rgb(var(--tint)/0.14)] bg-white shadow-[inset_0_1px_0_rgba(0,0,0,0.06)]">
+          <span className="relative grid place-items-center w-9 h-9 overflow-hidden rounded-xl border border-[rgb(var(--tint)/0.14)] bg-white shadow-[inset_0_1px_0_rgba(0,0,0,0.06)] shrink-0">
             <Image
               src="/logo/Logo-Dark.png"
               alt="Logo Evan Morales"
@@ -61,7 +69,7 @@ export default function Navbar() {
               className="object-contain"
             />
           </span>
-          <span className="flex flex-col gap-[3px] leading-[1.15]">
+          <span className="hidden min-[380px]:flex flex-col gap-[3px] leading-[1.15]">
             <span className="text-[13.5px] font-semibold tracking-[-0.01em] text-[var(--c-fg)] whitespace-nowrap">
               Evan Morales
             </span>
@@ -73,13 +81,14 @@ export default function Navbar() {
 
         {/* center: nav with sliding active highlight */}
         <div className="hidden md:flex items-center gap-px p-[3px] rounded-full border border-[rgb(var(--tint)/0.06)] bg-[rgb(var(--tint)/0.02)] shrink-0">
-          {navItems.map((item) => {
+          {navItems.map((item, idx) => {
             const on = item.id === active;
             return (
               <a
                 key={item.id}
                 href={item.href}
-                className={`group relative inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-[13.5px] font-medium whitespace-nowrap shrink-0 transition-colors duration-250 ease-out ${
+                style={sweep(1 + idx)}
+                className={`animate-em-nav-item group relative inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-[13.5px] font-medium whitespace-nowrap shrink-0 transition-colors duration-250 ease-out ${
                   on
                     ? "text-[var(--c-bg)] bg-[var(--c-fg)]"
                     : "text-[var(--c-muted)] bg-transparent hover:bg-[rgb(var(--tint)/0.06)] hover:text-[var(--c-fg)]"
@@ -97,24 +106,29 @@ export default function Navbar() {
         </div>
 
         {/* right: status + CTA + mobile menu toggle */}
-        <div className="flex items-center gap-2.5 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <Tooltip>
             <TooltipTrigger asChild>
-              <span className="hidden sm:grid place-items-center w-8 h-8 rounded-full border border-[rgb(var(--tint)/0.1)] bg-[rgb(var(--tint)/0.02)] shrink-0">
+              <span
+                style={sweep(6)}
+                className="animate-em-nav-item hidden sm:grid place-items-center w-8 h-8 rounded-full border border-[rgb(var(--tint)/0.1)] bg-[rgb(var(--tint)/0.02)] shrink-0"
+              >
                 <span className="w-[7px] h-[7px] rounded-full bg-[var(--c-fg)] shadow-[0_0_9px_rgb(var(--tint)/0.85)] animate-em-pulse-fast" />
               </span>
             </TooltipTrigger>
             <TooltipContent>{t.nav.available}</TooltipContent>
           </Tooltip>
-          <LangToggle className="shrink-0" />
+          <LangToggle className="animate-em-nav-item shrink-0" style={sweep(7)} />
           <AnimatedThemeToggler
             duration={500}
             aria-label={t.nav.themeLabel}
-            className="grid place-items-center w-9 h-9 rounded-full border border-[rgb(var(--tint)/0.1)] bg-[rgb(var(--tint)/0.02)] text-[var(--c-fg-2)] transition-colors hover:text-[var(--c-fg)] hover:bg-[rgb(var(--tint)/0.06)] shrink-0 [&_svg]:size-[16px]"
+            style={sweep(8)}
+            className="animate-em-nav-item grid place-items-center w-9 h-9 rounded-full border border-[rgb(var(--tint)/0.1)] bg-[rgb(var(--tint)/0.02)] text-[var(--c-fg-2)] transition-colors hover:text-[var(--c-fg)] hover:bg-[rgb(var(--tint)/0.06)] shrink-0 [&_svg]:size-[16px]"
           />
           <Button
             asChild
-            className="hidden md:inline-flex h-auto rounded-full px-5 py-[11px] gap-2 text-[13.5px] font-semibold border border-[rgb(var(--tint)/0.25)] whitespace-nowrap shadow-[0_4px_18px_rgb(var(--tint)/0.14)] transition-all duration-300 hover:-translate-y-px hover:bg-primary hover:shadow-[0_8px_26px_rgb(var(--tint)/0.28)]"
+            style={sweep(9)}
+            className="animate-em-nav-item hidden md:inline-flex h-auto rounded-full px-5 py-[11px] gap-2 text-[13.5px] font-semibold border border-[rgb(var(--tint)/0.25)] whitespace-nowrap shadow-[0_4px_18px_rgb(var(--tint)/0.14)] transition-all duration-300 hover:-translate-y-px hover:bg-primary hover:shadow-[0_8px_26px_rgb(var(--tint)/0.28)]"
           >
             <a href="#contact">
               {t.nav.cta}
@@ -131,8 +145,9 @@ export default function Navbar() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen((v) => !v)}
+            style={sweep(10)}
             className={cn(
-              "md:hidden relative grid place-items-center w-9 h-9 rounded-full border transition-colors duration-300",
+              "animate-em-nav-item md:hidden relative grid place-items-center w-9 h-9 rounded-full border transition-colors duration-300",
               open
                 ? "border-[rgb(var(--tint)/0.2)] bg-[rgb(var(--tint)/0.08)] text-[var(--c-fg)]"
                 : "border-[rgb(var(--tint)/0.1)] bg-[rgb(var(--tint)/0.02)] text-[var(--c-fg-2)] hover:text-[var(--c-fg)] hover:bg-[rgb(var(--tint)/0.06)]"
