@@ -5,8 +5,10 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { navItems, socials } from "@/lib/data";
 import { useScrollState } from "@/hooks/useScrollState";
+import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { AnimatedThemeToggler } from "@/components/magicui/animated-theme-toggler";
+import { LangToggle } from "@/components/LangToggle";
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
@@ -16,6 +18,7 @@ import {
 
 export default function Navbar() {
   const { active, progress } = useScrollState();
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
   // Lock body scroll + close on Escape while the mobile menu is open.
@@ -63,7 +66,7 @@ export default function Navbar() {
               Evan Morales
             </span>
             <span className="text-[10.5px] tracking-[0.1em] uppercase text-[var(--c-faint)] whitespace-nowrap">
-              Full-Stack Dev
+              {t.nav.role}
             </span>
           </span>
         </a>
@@ -87,7 +90,7 @@ export default function Navbar() {
                     on ? "bg-[var(--c-bg)]" : "bg-[rgb(var(--tint)/0.18)]"
                   }`}
                 />
-                {item.label}
+                {t.nav.items[item.id]}
               </a>
             );
           })}
@@ -101,11 +104,12 @@ export default function Navbar() {
                 <span className="w-[7px] h-[7px] rounded-full bg-[var(--c-fg)] shadow-[0_0_9px_rgb(var(--tint)/0.85)] animate-em-pulse-fast" />
               </span>
             </TooltipTrigger>
-            <TooltipContent>Disponible para proyectos</TooltipContent>
+            <TooltipContent>{t.nav.available}</TooltipContent>
           </Tooltip>
+          <LangToggle className="shrink-0" />
           <AnimatedThemeToggler
             duration={500}
-            aria-label="Cambiar tema"
+            aria-label={t.nav.themeLabel}
             className="grid place-items-center w-9 h-9 rounded-full border border-[rgb(var(--tint)/0.1)] bg-[rgb(var(--tint)/0.02)] text-[var(--c-fg-2)] transition-colors hover:text-[var(--c-fg)] hover:bg-[rgb(var(--tint)/0.06)] shrink-0 [&_svg]:size-[16px]"
           />
           <Button
@@ -113,7 +117,7 @@ export default function Navbar() {
             className="hidden md:inline-flex h-auto rounded-full px-5 py-[11px] gap-2 text-[13.5px] font-semibold border border-[rgb(var(--tint)/0.25)] whitespace-nowrap shadow-[0_4px_18px_rgb(var(--tint)/0.14)] transition-all duration-300 hover:-translate-y-px hover:bg-primary hover:shadow-[0_8px_26px_rgb(var(--tint)/0.28)]"
           >
             <a href="#contact">
-              Contactar
+              {t.nav.cta}
               <span className="grid place-items-center w-[18px] h-[18px] rounded-full bg-[var(--c-bg)] text-[var(--c-fg)] text-[11px]">
                 →
               </span>
@@ -123,7 +127,7 @@ export default function Navbar() {
           {/* mobile toggle — hamburger morphs into an X */}
           <button
             type="button"
-            aria-label={open ? "Cerrar menú" : "Abrir menú"}
+            aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen((v) => !v)}
@@ -184,11 +188,11 @@ export default function Navbar() {
             {/* header row */}
             <div className="flex items-center justify-between px-3 pt-1.5 pb-3">
               <span className="text-[10.5px] font-medium tracking-[0.18em] uppercase text-[var(--c-faint)]">
-                Navegación
+                {t.nav.navigation}
               </span>
               <span className="flex items-center gap-1.5 text-[10.5px] tracking-[0.06em] uppercase text-[var(--c-muted)]">
                 <span className="w-[6px] h-[6px] rounded-full bg-[var(--c-fg)] shadow-[0_0_8px_rgb(var(--tint)/0.85)] animate-em-pulse-fast" />
-                Disponible
+                {t.nav.availableShort}
               </span>
             </div>
 
@@ -237,7 +241,7 @@ export default function Navbar() {
                           : "text-[var(--c-muted)] group-hover:text-[var(--c-fg)]"
                       )}
                     >
-                      {item.label}
+                      {t.nav.items[item.id]}
                     </span>
                     <ArrowUpRight
                       size={17}
@@ -266,7 +270,7 @@ export default function Navbar() {
                 open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
               )}
             >
-              Contactar
+              {t.nav.cta}
               <span className="grid place-items-center w-[20px] h-[20px] rounded-full bg-[var(--c-bg)] text-[var(--c-fg)] text-[12px]">
                 →
               </span>

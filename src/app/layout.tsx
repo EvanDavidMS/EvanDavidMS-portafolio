@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/CustomCursor";
+import { I18nProvider } from "@/lib/i18n";
 
 // Only the weights/styles actually used in the UI are requested, so the
 // browser downloads far fewer font files. Poppins: 400–800 normal (no 300, no
@@ -91,7 +92,9 @@ export default function RootLayout({
         />
         <SmoothScroll />
         <CustomCursor />
-        <TooltipProvider delayDuration={150}>{children}</TooltipProvider>
+        <I18nProvider>
+          <TooltipProvider delayDuration={150}>{children}</TooltipProvider>
+        </I18nProvider>
         <Analytics />
       </body>
     </html>

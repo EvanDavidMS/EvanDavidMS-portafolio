@@ -1,10 +1,14 @@
+"use client";
+
 import { socials, contactEmail } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { MovingBorderButton } from "@/components/MovingBorderButton";
 import { TextAnimate } from "@/components/magicui/text-animate";
 import { Reveal } from "@/components/Reveal";
+import { useI18n } from "@/lib/i18n";
 
 export default function Contact() {
+  const { t, lang } = useI18n();
   return (
     <section
       id="contact"
@@ -24,35 +28,37 @@ export default function Contact() {
             by="character"
             animation="blurInUp"
             once
+            key={`eyebrow-${lang}`}
             className="text-sm tracking-[0.14em] uppercase text-[var(--c-muted)] mb-[22px]"
           >
-            04 — Contacto
+            {t.contact.eyebrow}
           </TextAnimate>
           <Reveal>
             <h2 className="text-[clamp(34px,6vw,66px)] font-bold tracking-[-0.035em] leading-[1.05]">
-              Trabajemos{" "}
+              {t.contact.headingPre}{" "}
               <span className="font-serif italic font-medium text-[var(--c-fg-2)]">
-                juntos.
+                {t.contact.togetherWord}
               </span>
             </h2>
           </Reveal>
           <TextAnimate
+            key={`para-${lang}`}
             as="p"
             by="word"
             animation="blurInUp"
             once
             className="mx-auto mt-[22px] max-w-[44ch] text-base leading-[1.65] text-[var(--c-muted)]"
           >
-            ¿Tienes una idea o un producto en mente? Escríbeme y lo construimos.
+            {t.contact.paragraph}
           </TextAnimate>
           <Reveal delayMs={120} className="flex flex-wrap gap-[14px] justify-center mt-[38px]">
             <MovingBorderButton
               href={`mailto:${contactEmail}?subject=${encodeURIComponent(
-                "Hola Evan 👋"
+                t.contact.mailSubject
               )}`}
               innerClassName="px-[30px]"
             >
-              Hablemos →
+              {t.contact.talk}
             </MovingBorderButton>
             <MovingBorderButton
               href="/cv"
@@ -60,7 +66,7 @@ export default function Contact() {
               rel="noopener noreferrer"
               innerClassName="px-[30px] bg-secondary font-medium text-secondary-foreground group-hover:bg-secondary/80"
             >
-              Descargar CV
+              {t.contact.cv}
             </MovingBorderButton>
           </Reveal>
           <Reveal delayMs={220} className="flex flex-wrap gap-3 justify-center mt-[34px]">

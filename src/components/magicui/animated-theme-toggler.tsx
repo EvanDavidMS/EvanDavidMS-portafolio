@@ -205,7 +205,22 @@ export const AnimatedThemeToggler = ({
       }
     };
 
-    if (typeof document.startViewTransition !== "function") {
+    // On small / touch screens the whole-page snapshot (heavy animated canvas +
+    // backdrop-blur surfaces) can't rasterize fast enough, so the circular clip
+    // animation stutters and "jumps" mid-way. Skip the View Transition there and
+    // flip the theme instantly — clean, no half-played animation.
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const cheapDevice =
+      window.matchMedia("(max-width: 768px)").matches ||
+      window.matchMedia("(pointer: coarse)").matches;
+
+    if (
+      typeof document.startViewTransition !== "function" ||
+      prefersReduced ||
+      cheapDevice
+    ) {
       applyTheme();
       return;
     }

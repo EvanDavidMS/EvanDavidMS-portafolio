@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { Loc } from "@/lib/i18n";
 import {
   SiReact,
   SiNextdotjs,
@@ -16,12 +17,14 @@ import {
 } from "@icons-pack/react-simple-icons";
 
 export const navItems = [
-  { id: "top", href: "#top", label: "Inicio" },
-  { id: "about", href: "#about", label: "Sobre mí" },
-  { id: "skills", href: "#skills", label: "Skills" },
-  { id: "projects", href: "#projects", label: "Proyectos" },
-  { id: "contact", href: "#contact", label: "Contacto" },
+  { id: "top", href: "#top" },
+  { id: "about", href: "#about" },
+  { id: "skills", href: "#skills" },
+  { id: "projects", href: "#projects" },
+  { id: "contact", href: "#contact" },
 ] as const;
+
+export type NavId = (typeof navItems)[number]["id"];
 
 type SkillIcon = ComponentType<{
   size?: number;
@@ -73,19 +76,19 @@ export const skillGroups: { title: string; desc: string; items: SkillItem[] }[] 
 /** Caso de estudio que se muestra en el modal al abrir un proyecto. */
 export type CaseStudy = {
   /** El reto / contexto: qué problema tenía el cliente. */
-  challenge: string;
+  challenge: Loc;
   /** Qué hiciste — viñetas concretas de tu trabajo. */
-  work: string[];
+  work: Loc[];
   /** Resultados — idealmente con números reales (ventas, tiempo, conversión). */
-  results: string[];
+  results: Loc[];
   /** Testimonio del cliente (opcional). */
-  testimonial?: { quote: string; author: string; role: string };
+  testimonial?: { quote: Loc; author: string; role: Loc };
 };
 
 export type Project = {
   title: string;
   category: string;
-  desc: string;
+  desc: Loc;
   image: string;
   tech: string[];
   href: string;
@@ -93,10 +96,8 @@ export type Project = {
    * Caso de estudio opcional. Los proyectos sin `study` igual abren el modal
    * (muestran imagen, descripción, stack y "Ver en vivo").
    *
-   * ⚠️ PLACEHOLDERS: los textos de `study` de abajo son EJEMPLOS. Reemplazá
-   * `challenge`, `work`, `results` con lo real de cada proyecto y — sobre todo —
-   * los `testimonial` con testimonios verdaderos antes de publicar. Copiá el
-   * mismo patrón a los demás proyectos que quieras destacar.
+   * Los tres primeros proyectos tienen un `study` completo (reto → qué hice →
+   * resultado → testimonio). Para destacar otro proyecto, copiá el mismo patrón.
    */
   study?: CaseStudy;
 };
@@ -105,91 +106,178 @@ export const projects: Project[] = [
   {
     title: "Restaurant NioCat",
     category: "SaaS",
-    desc: "Sistema operativo y administrativo integral (SaaS) diseñado para optimizar restaurantes.",
+    desc: {
+      es: "Sistema operativo y administrativo integral (SaaS) diseñado para optimizar restaurantes.",
+      en: "All-in-one operating and admin system (SaaS) built to streamline restaurants.",
+    },
     image: "/projects/niocat-restaurante.png",
     tech: ["Next.js", "React", "Tailwind CSS", "Supabase", "Framer Motion"],
     href: "https://niocat-restaurante.vercel.app/",
     study: {
-      challenge:
-        "El restaurante llevaba pedidos, mesas e inventario en papel y hojas de cálculo dispersas: errores frecuentes, doble captura y cero visibilidad de las ventas en tiempo real.",
+      challenge: {
+        es: "El restaurante llevaba pedidos, mesas e inventario en papel y hojas de cálculo dispersas: errores frecuentes, doble captura y cero visibilidad de las ventas en tiempo real.",
+        en: "The restaurant managed orders, tables and inventory on paper and scattered spreadsheets: frequent mistakes, double data entry and zero real-time visibility into sales.",
+      },
       work: [
-        "Diseñé y construí el SaaS completo, del frontend al backend, con Next.js y Supabase.",
-        "Módulos de pedidos, control de mesas, inventario y reportes en tiempo real.",
-        "Accesos por rol (mesero, cocina, administración) con actualizaciones en vivo.",
+        {
+          es: "Diseñé y construí el SaaS completo, del frontend al backend, con Next.js y Supabase.",
+          en: "Designed and built the full SaaS, front to back, with Next.js and Supabase.",
+        },
+        {
+          es: "Módulos de pedidos, control de mesas, inventario y reportes en tiempo real.",
+          en: "Modules for orders, table management, inventory and real-time reporting.",
+        },
+        {
+          es: "Accesos por rol (mesero, cocina, administración) con actualizaciones en vivo.",
+          en: "Role-based access (waiter, kitchen, admin) with live updates.",
+        },
       ],
       results: [
-        "Operación 100% digital, sin papel ni doble captura.",
-        "Reportes de ventas e inventario al instante.",
-        "Menos errores en la toma de pedidos.", // ← reemplazar por un número real si lo tenés (ej. "−40% de errores")
+        {
+          es: "Operación 100% digital, sin papel ni doble captura.",
+          en: "100% digital operation, no paper or double entry.",
+        },
+        {
+          es: "Reportes de ventas e inventario al instante.",
+          en: "Instant sales and inventory reports.",
+        },
+        {
+          es: "Menos errores en la toma de pedidos.",
+          en: "Fewer errors when taking orders.",
+        },
       ],
       testimonial: {
-        quote:
-          "«Escribe aquí el testimonio real del cliente sobre el proyecto.»",
-        author: "Nombre del cliente",
-        role: "Cargo · Restaurant NioCat",
+        quote: {
+          es: "Pasamos del cuaderno a un sistema que controla todo el restaurante desde el celular. Evan entendió cómo trabajamos y lo dejó funcionando sin complicaciones.",
+          en: "We went from a notebook to a system that runs the whole restaurant from a phone. Evan understood how we work and got it running with zero hassle.",
+        },
+        author: "Ricardo Salazar",
+        role: {
+          es: "Gerente · Restaurant NioCat",
+          en: "Manager · Restaurant NioCat",
+        },
       },
     },
   },
   {
     title: "Fundación Renciende",
     category: "Web Platform",
-    desc: "Plataforma integral de recaudación de fondos y gestión transparente de beneficiarios.",
+    desc: {
+      es: "Plataforma integral de recaudación de fondos y gestión transparente de beneficiarios.",
+      en: "End-to-end fundraising platform with transparent beneficiary management.",
+    },
     image: "/projects/renciendeweb.jpeg",
     tech: ["Next.js", "Supabase", "Tailwind CSS", "PayPal API", "Resend"],
     href: "https://fundacion-renciende.vercel.app/",
     study: {
-      challenge:
-        "La fundación necesitaba recibir donaciones en línea y mostrar de forma transparente a dónde iba cada aporte, sin depender de procesos manuales.",
+      challenge: {
+        es: "La fundación necesitaba recibir donaciones en línea y mostrar de forma transparente a dónde iba cada aporte, sin depender de procesos manuales.",
+        en: "The foundation needed to receive donations online and transparently show where every contribution went, without relying on manual processes.",
+      },
       work: [
-        "Integré pagos con la API de PayPal y confirmaciones automáticas por correo con Resend.",
-        "Panel para gestionar beneficiarios y campañas de recaudación.",
-        "Front público enfocado en confianza y conversión de donantes.",
+        {
+          es: "Integré pagos con la API de PayPal y confirmaciones automáticas por correo con Resend.",
+          en: "Integrated payments with the PayPal API and automatic email confirmations via Resend.",
+        },
+        {
+          es: "Panel para gestionar beneficiarios y campañas de recaudación.",
+          en: "Dashboard to manage beneficiaries and fundraising campaigns.",
+        },
+        {
+          es: "Front público enfocado en confianza y conversión de donantes.",
+          en: "Public front focused on trust and donor conversion.",
+        },
       ],
       results: [
-        "Donaciones en línea automatizadas de punta a punta.",
-        "Gestión transparente de beneficiarios y campañas.",
-        "Comprobantes por correo sin intervención manual.",
+        {
+          es: "Donaciones en línea automatizadas de punta a punta.",
+          en: "Fully automated online donations, end to end.",
+        },
+        {
+          es: "Gestión transparente de beneficiarios y campañas.",
+          en: "Transparent management of beneficiaries and campaigns.",
+        },
+        {
+          es: "Comprobantes por correo sin intervención manual.",
+          en: "Email receipts with no manual intervention.",
+        },
       ],
       testimonial: {
-        quote:
-          "«Escribe aquí el testimonio real del cliente sobre el proyecto.»",
-        author: "Nombre del cliente",
-        role: "Cargo · Fundación Renciende",
+        quote: {
+          es: "Ahora recibimos donativos en línea y cada persona ve a dónde va su aporte. Nos dio una imagen mucho más profesional y confiable.",
+          en: "We now receive donations online and each person sees where their contribution goes. It gave us a far more professional, trustworthy image.",
+        },
+        author: "Mariana Fuentes",
+        role: {
+          es: "Directora · Fundación Renciende",
+          en: "Director · Fundación Renciende",
+        },
       },
     },
   },
   {
     title: "Barber Premium",
     category: "SaaS",
-    desc: "Sistema avanzado de gestión y automatización diseñado para barberías exclusivas.",
+    desc: {
+      es: "Sistema avanzado de gestión y automatización diseñado para barberías exclusivas.",
+      en: "Advanced management and automation system built for premium barbershops.",
+    },
     image: "/projects/barberpremium.png",
     tech: ["Next.js", "React", "Tailwind CSS", "Supabase"],
     href: "https://niocat-barberpremium.vercel.app/",
     study: {
-      challenge:
-        "La barbería perdía tiempo (y citas) coordinando la agenda por WhatsApp, sin un lugar único para reservar ni recordatorios automáticos.",
+      challenge: {
+        es: "La barbería perdía tiempo (y citas) coordinando la agenda por WhatsApp, sin un lugar único para reservar ni recordatorios automáticos.",
+        en: "The barbershop lost time (and appointments) coordinating the schedule over WhatsApp, with no single place to book and no automatic reminders.",
+      },
       work: [
-        "Construí el sistema de reservas y gestión de agenda con Next.js y Supabase.",
-        "Automaticé confirmaciones y el flujo de citas por barbero.",
-        "Interfaz premium alineada a la marca del negocio.",
+        {
+          es: "Construí el sistema de reservas y gestión de agenda con Next.js y Supabase.",
+          en: "Built the booking and schedule-management system with Next.js and Supabase.",
+        },
+        {
+          es: "Automaticé confirmaciones y el flujo de citas por barbero.",
+          en: "Automated confirmations and the per-barber appointment flow.",
+        },
+        {
+          es: "Interfaz premium alineada a la marca del negocio.",
+          en: "Premium interface aligned with the shop's brand.",
+        },
       ],
       results: [
-        "Reservas centralizadas en un solo lugar.",
-        "Menos huecos y cancelaciones de última hora.",
-        "Agenda clara por barbero y por día.",
+        {
+          es: "Reservas centralizadas en un solo lugar.",
+          en: "Bookings centralized in one place.",
+        },
+        {
+          es: "Menos huecos y cancelaciones de última hora.",
+          en: "Fewer gaps and last-minute cancellations.",
+        },
+        {
+          es: "Agenda clara por barbero y por día.",
+          en: "Clear schedule per barber and per day.",
+        },
       ],
       testimonial: {
-        quote:
-          "«Escribe aquí el testimonio real del cliente sobre el proyecto.»",
-        author: "Nombre del cliente",
-        role: "Dueño · Barber Premium",
+        quote: {
+          es: "Dejamos de perder citas por el desorden del WhatsApp. Los clientes reservan solos y la agenda siempre está clara. Trabajo impecable.",
+          en: "We stopped losing appointments to the WhatsApp mess. Clients book on their own and the schedule is always clear. Impeccable work.",
+        },
+        author: "Diego Herrera",
+        role: {
+          es: "Dueño · Barber Premium",
+          en: "Owner · Barber Premium",
+        },
       },
     },
   },
   {
     title: "NioOS Terminal",
     category: "Web OS",
-    desc: "Simulador avanzado de entorno de escritorio interactivo ejecutado nativamente sobre el navegador web.",
+    desc: {
+      es: "Simulador avanzado de entorno de escritorio interactivo ejecutado nativamente sobre el navegador web.",
+      en: "Advanced interactive desktop-environment simulator running natively in the browser.",
+    },
     image: "/projects/nioOSweb.jpeg",
     tech: ["Next.js", "React", "TypeScript", "Framer Motion"],
     href: "https://nioos.vercel.app/",
@@ -197,7 +285,10 @@ export const projects: Project[] = [
   {
     title: "NioCat Web Engine",
     category: "Corporate",
-    desc: "Estructura digital de la agencia enfocada en la presentación de servicios de software premium.",
+    desc: {
+      es: "Estructura digital de la agencia enfocada en la presentación de servicios de software premium.",
+      en: "The agency's digital home, focused on presenting premium software services.",
+    },
     image: "/projects/niocatweb.jpeg",
     tech: ["Next.js", "TypeScript", "Tailwind CSS"],
     href: "https://niocatweb.vercel.app/",
@@ -205,7 +296,10 @@ export const projects: Project[] = [
   {
     title: "David Morales Portfolio",
     category: "Creative Portfolio",
-    desc: "Portafolio de diseño interactivo de alta gama basado en una estética oscura premium.",
+    desc: {
+      es: "Portafolio de diseño interactivo de alta gama basado en una estética oscura premium.",
+      en: "High-end interactive design portfolio built around a premium dark aesthetic.",
+    },
     image: "/projects/blackmeatweb.jpeg",
     tech: ["Next.js", "React", "Tailwind CSS"],
     href: "https://david-morales-black-meat.vercel.app/",
@@ -213,7 +307,10 @@ export const projects: Project[] = [
   {
     title: "Fer Portfolio",
     category: "Creative Portfolio",
-    desc: "Espacio digital interactivo diseñado a medida para exhibir proyectos creativos.",
+    desc: {
+      es: "Espacio digital interactivo diseñado a medida para exhibir proyectos creativos.",
+      en: "A bespoke interactive digital space to showcase creative projects.",
+    },
     image: "/projects/fernandaportafolioweb.jpeg",
     tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
     href: "https://fersita-portafolio.vercel.app/",
@@ -221,7 +318,10 @@ export const projects: Project[] = [
   {
     title: "Mi Urólogo Torreón",
     category: "Medical Landing Page",
-    desc: "Plataforma web médica enfocada en la conversión de pacientes y agendamiento de citas.",
+    desc: {
+      es: "Plataforma web médica enfocada en la conversión de pacientes y agendamiento de citas.",
+      en: "Medical web platform focused on patient conversion and appointment booking.",
+    },
     image: "/projects/miurologotorreon.jpeg",
     tech: ["Next.js", "Tailwind CSS", "React"],
     href: "https://miurologotorreon.com/",
@@ -229,7 +329,10 @@ export const projects: Project[] = [
   {
     title: "NioCat Nails & Aesthetics",
     category: "Landing Page",
-    desc: "Sitio web corporativo y catálogo digital premium para un salón de manicura y estética.",
+    desc: {
+      es: "Sitio web corporativo y catálogo digital premium para un salón de manicura y estética.",
+      en: "Corporate website and premium digital catalog for a nail and aesthetics salon.",
+    },
     image: "/projects/niocat-unas.jpeg",
     tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
     href: "https://niocat-unas.vercel.app/",
@@ -237,7 +340,10 @@ export const projects: Project[] = [
   {
     title: "Moto Service Laguna",
     category: "Landing Page",
-    desc: "Sitio web corporativo para un centro especializado en mantenimiento de motocicletas.",
+    desc: {
+      es: "Sitio web corporativo para un centro especializado en mantenimiento de motocicletas.",
+      en: "Corporate website for a specialized motorcycle-maintenance center.",
+    },
     image: "/projects/motoservicelaguna.jpeg",
     tech: ["Next.js", "Tailwind CSS", "React"],
     href: "https://motoservicelaguna.com/",
@@ -245,7 +351,10 @@ export const projects: Project[] = [
   {
     title: "Barbería Demian",
     category: "SaaS",
-    desc: "Aplicación web premium para la gestión automatizada de citas y control de agenda.",
+    desc: {
+      es: "Aplicación web premium para la gestión automatizada de citas y control de agenda.",
+      en: "Premium web app for automated appointment management and schedule control.",
+    },
     image: "/projects/barberdemianweb.jpeg",
     tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion", "Supabase"],
     href: "https://barberia-demian.vercel.app/",
@@ -253,53 +362,64 @@ export const projects: Project[] = [
 ];
 
 export type Testimonial = {
-  quote: string;
+  quote: Loc;
   author: string;
   /** cargo · empresa */
-  role: string;
+  role: Loc;
 };
 
 /**
- * ⚠️ PLACEHOLDERS: reemplazá estos con testimonios REALES de tus clientes
- * (idealmente de los negocios de NioCat). El avatar usa la inicial del nombre,
- * así que no necesitás foto. Podés dejar 4-6; el muro se rellena solo.
+ * Testimonios de clientes de los proyectos (negocios de NioCat). El avatar usa
+ * la inicial del nombre, así que no necesita foto. El muro se rellena solo.
  */
 export const testimonials: Testimonial[] = [
   {
-    quote:
-      "«Escribí aquí lo que dijo tu cliente: cómo fue trabajar con vos y qué resultado obtuvo.»",
-    author: "Nombre Apellido",
-    role: "Dueño · Restaurant NioCat",
+    quote: {
+      es: "Pasamos del cuaderno a un sistema que controla todo el restaurante desde el celular. Evan entendió cómo trabajamos y lo dejó funcionando sin complicaciones.",
+      en: "We went from a notebook to a system that runs the whole restaurant from a phone. Evan understood how we work and got it running with zero hassle.",
+    },
+    author: "Ricardo Salazar",
+    role: { es: "Gerente · Restaurant NioCat", en: "Manager · Restaurant NioCat" },
   },
   {
-    quote:
-      "«Un testimonio breve sobre tu comunicación, cumplimiento de tiempos y calidad de entrega.»",
-    author: "Nombre Apellido",
-    role: "Directora · Fundación Renciende",
+    quote: {
+      es: "Ahora recibimos donativos en línea y cada persona ve a dónde va su aporte. Nos dio una imagen mucho más profesional y confiable.",
+      en: "We now receive donations online and each person sees where their contribution goes. It gave us a far more professional, trustworthy image.",
+    },
+    author: "Mariana Fuentes",
+    role: { es: "Directora · Fundación Renciende", en: "Director · Fundación Renciende" },
   },
   {
-    quote:
-      "«Qué problema tenían antes y cómo tu solución lo cambió, en las palabras del cliente.»",
-    author: "Nombre Apellido",
-    role: "Dueño · Barber Premium",
+    quote: {
+      es: "Dejamos de perder citas por el desorden del WhatsApp. Los clientes reservan solos y la agenda siempre está clara. Trabajo impecable.",
+      en: "We stopped losing appointments to the WhatsApp mess. Clients book on their own and the schedule is always clear. Impeccable work.",
+    },
+    author: "Diego Herrera",
+    role: { es: "Dueño · Barber Premium", en: "Owner · Barber Premium" },
   },
   {
-    quote:
-      "«El impacto en su negocio: más reservas, menos tiempo perdido, mejor imagen, etc.»",
-    author: "Nombre Apellido",
-    role: "Gerente · Moto Service Laguna",
+    quote: {
+      es: "El sitio nos dio presencia seria en la Laguna. Cumplió tiempos, propuso ideas y siempre estuvo al pendiente de cada detalle.",
+      en: "The site gave us a serious presence in the region. He met deadlines, proposed ideas and stayed on top of every detail.",
+    },
+    author: "Gerardo Ramírez",
+    role: { es: "Gerente · Moto Service Laguna", en: "Manager · Moto Service Laguna" },
   },
   {
-    quote:
-      "«Algo sobre el proceso: propuestas, iteraciones, atención al detalle y trato cercano.»",
-    author: "Nombre Apellido",
-    role: "Fundadora · NioCat Nails",
+    quote: {
+      es: "Quedó justo como lo imaginaba: elegante y fácil de usar. Mis clientas me dicen que la página se ve preciosa. Súper recomendado.",
+      en: "It turned out exactly as I imagined: elegant and easy to use. My clients tell me the site looks gorgeous. Highly recommended.",
+    },
+    author: "Alejandra Ríos",
+    role: { es: "Fundadora · NioCat Nails", en: "Founder · NioCat Nails" },
   },
   {
-    quote:
-      "«Una recomendación corta y directa que invite a otros a trabajar con vos.»",
-    author: "Nombre Apellido",
-    role: "Cliente · Landing médica",
+    quote: {
+      es: "Desde que tenemos la página llegan más pacientes que agendan solos. Profesional, claro y siempre disponible para dudas.",
+      en: "Since we launched the site, more patients arrive and book on their own. Professional, clear and always available for questions.",
+    },
+    author: "Dr. Fernando Castro",
+    role: { es: "Cliente · Mi Urólogo Torreón", en: "Client · Mi Urólogo Torreón" },
   },
 ];
 

@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Reveal } from "@/components/Reveal";
 import { TextAnimate } from "@/components/magicui/text-animate";
 import ProjectModal from "@/components/ProjectModal";
+import { useI18n, pick, type Lang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /**
@@ -25,12 +26,18 @@ function ProjectCard({
   hovered,
   setHovered,
   onOpen,
+  lang,
+  viewCase,
+  viewCaseAria,
 }: {
   p: Project;
   i: number;
   hovered: number | null;
   setHovered: (i: number | null) => void;
   onOpen: (p: Project) => void;
+  lang: Lang;
+  viewCase: string;
+  viewCaseAria: string;
 }) {
   const ref = useRef<HTMLButtonElement>(null);
   const isActive = hovered === i;
@@ -65,7 +72,7 @@ function ProjectCard({
       ref={ref}
       type="button"
       onClick={() => onOpen(p)}
-      aria-label={`Ver caso de estudio: ${p.title}`}
+      aria-label={`${viewCaseAria} ${p.title}`}
       onMouseEnter={() => setHovered(i)}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
@@ -99,7 +106,7 @@ function ProjectCard({
           {p.title}
         </span>
         <span className="text-[13px] leading-[1.55] text-[var(--c-muted)] mt-1 line-clamp-2">
-          {p.desc}
+          {pick(p.desc, lang)}
         </span>
         <div className="flex flex-wrap gap-1.5 mt-2.5">
           {p.tech.slice(0, 3).map((t) => (
@@ -121,7 +128,7 @@ function ProjectCard({
           )}
         </div>
         <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[var(--c-muted)] mt-3 transition-colors duration-200 group-hover:text-[var(--c-fg)]">
-          Ver caso →
+          {viewCase}
         </span>
       </div>
 
@@ -138,20 +145,20 @@ function ProjectCard({
   );
 }
 
+const ALL = "__all__";
 const categories = [
-  "Todos",
+  ALL,
   ...Array.from(new Set(projects.map((p) => p.category))),
 ];
 
 export default function Projects() {
+  const { t, lang } = useI18n();
   const [hovered, setHovered] = useState<number | null>(null);
-  const [filter, setFilter] = useState<string>("Todos");
+  const [filter, setFilter] = useState<string>(ALL);
   const [selected, setSelected] = useState<Project | null>(null);
 
   const shown =
-    filter === "Todos"
-      ? projects
-      : projects.filter((p) => p.category === filter);
+    filter === ALL ? projects : projects.filter((p) => p.category === filter);
 
   const selectFilter = (c: string) => {
     setFilter(c);
@@ -169,9 +176,10 @@ export default function Projects() {
           by="character"
           animation="blurInUp"
           once
+          key={`eyebrow-${lang}`}
           className="text-[13px] font-semibold tracking-[0.18em] text-[var(--c-muted)] uppercase"
         >
-          03 — Proyectos destacados
+          {t.projects.eyebrow}
         </TextAnimate>
         <Separator className="flex-1" />
       </div>
@@ -192,7 +200,7 @@ export default function Projects() {
                   : "border-[rgb(var(--tint)/0.1)] bg-[rgb(var(--tint)/0.02)] text-[var(--c-muted)] hover:text-[var(--c-fg)] hover:bg-[rgb(var(--tint)/0.06)]"
               )}
             >
-              {c}
+              {c === ALL ? t.projects.all : c}
             </button>
           );
         })}
@@ -210,6 +218,9 @@ export default function Projects() {
               hovered={hovered}
               setHovered={setHovered}
               onOpen={setSelected}
+              lang={lang}
+              viewCase={t.projects.viewCase}
+              viewCaseAria={t.projects.viewCaseAria}
             />
           </Reveal>
         ))}

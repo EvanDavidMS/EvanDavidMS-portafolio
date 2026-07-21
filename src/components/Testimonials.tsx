@@ -1,3 +1,5 @@
+"use client";
+
 import { Quote } from "lucide-react";
 
 import { testimonials, type Testimonial } from "@/lib/data";
@@ -6,13 +8,14 @@ import { Reveal } from "@/components/Reveal";
 import { Marquee } from "@/components/magicui/marquee";
 import { TextAnimate } from "@/components/magicui/text-animate";
 import { Highlighter } from "@/components/magicui/highlighter";
+import { useI18n, pick, type Lang } from "@/lib/i18n";
 
 const half = Math.ceil(testimonials.length / 2);
 const rowA = testimonials.slice(0, half);
 const rowB = testimonials.slice(half);
 
-function TestimonialCard({ t }: { t: Testimonial }) {
-  const initial = t.author.trim().charAt(0).toUpperCase();
+function TestimonialCard({ item, lang }: { item: Testimonial; lang: Lang }) {
+  const initial = item.author.trim().charAt(0).toUpperCase();
   return (
     <figure className="flex w-[340px] shrink-0 flex-col justify-between gap-4 rounded-2xl border border-[rgb(var(--tint)/0.08)] bg-[rgb(var(--tint)/0.02)] p-5">
       <div>
@@ -21,7 +24,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
           aria-hidden
         />
         <blockquote className="text-[13.5px] leading-[1.6] text-[var(--c-fg-2)]">
-          {t.quote}
+          “{pick(item.quote, lang)}”
         </blockquote>
       </div>
       <figcaption className="flex items-center gap-3">
@@ -33,10 +36,10 @@ function TestimonialCard({ t }: { t: Testimonial }) {
         </span>
         <span className="flex min-w-0 flex-col">
           <span className="truncate text-[13px] font-semibold text-[var(--c-fg)]">
-            {t.author}
+            {item.author}
           </span>
           <span className="truncate text-[11.5px] text-[var(--c-muted)]">
-            {t.role}
+            {pick(item.role, lang)}
           </span>
         </span>
       </figcaption>
@@ -45,6 +48,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
 }
 
 export default function Testimonials() {
+  const { t, lang } = useI18n();
   return (
     <section
       id="testimonials"
@@ -56,16 +60,18 @@ export default function Testimonials() {
           by="character"
           animation="blurInUp"
           once
+          key={`eyebrow-${lang}`}
           className="text-[13px] font-semibold tracking-[0.18em] text-[var(--c-muted)] uppercase"
         >
-          04 — Testimonios
+          {t.testimonials.eyebrow}
         </TextAnimate>
         <Separator className="flex-1" />
       </div>
 
       <h3 className="mb-9 max-w-[38ch] text-[clamp(22px,2.6vw,30px)] font-semibold leading-[1.28] tracking-[-0.02em]">
-        Lo que dicen quienes ya{" "}
+        {t.testimonials.headingPre}{" "}
         <Highlighter
+          key={`trust-${lang}`}
           action="underline"
           color="#8f8f8f"
           strokeWidth={2}
@@ -74,18 +80,18 @@ export default function Testimonials() {
           isView
         >
           <span className="font-serif italic font-medium text-[var(--c-fg-2)]">
-            confiaron
+            {t.testimonials.trustedWord}
           </span>
         </Highlighter>
-        .
+        {t.testimonials.headingPost}
       </h3>
 
       <Reveal>
         {/* two rows scrolling in opposite directions, faded at both edges */}
         <div className="relative [mask-image:linear-gradient(to_right,transparent,#000_8%,#000_92%,transparent)]">
           <Marquee pauseOnHover className="[--duration:44s] [--gap:1.25rem]">
-            {rowA.map((t, i) => (
-              <TestimonialCard key={i} t={t} />
+            {rowA.map((item, i) => (
+              <TestimonialCard key={i} item={item} lang={lang} />
             ))}
           </Marquee>
           <Marquee
@@ -93,8 +99,8 @@ export default function Testimonials() {
             pauseOnHover
             className="mt-5 [--duration:52s] [--gap:1.25rem]"
           >
-            {rowB.map((t, i) => (
-              <TestimonialCard key={i} t={t} />
+            {rowB.map((item, i) => (
+              <TestimonialCard key={i} item={item} lang={lang} />
             ))}
           </Marquee>
         </div>
