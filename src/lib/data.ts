@@ -70,7 +70,38 @@ export const skillGroups: { title: string; desc: string; items: SkillItem[] }[] 
   },
 ];
 
-export const projects = [
+/** Caso de estudio que se muestra en el modal al abrir un proyecto. */
+export type CaseStudy = {
+  /** El reto / contexto: qué problema tenía el cliente. */
+  challenge: string;
+  /** Qué hiciste — viñetas concretas de tu trabajo. */
+  work: string[];
+  /** Resultados — idealmente con números reales (ventas, tiempo, conversión). */
+  results: string[];
+  /** Testimonio del cliente (opcional). */
+  testimonial?: { quote: string; author: string; role: string };
+};
+
+export type Project = {
+  title: string;
+  category: string;
+  desc: string;
+  image: string;
+  tech: string[];
+  href: string;
+  /**
+   * Caso de estudio opcional. Los proyectos sin `study` igual abren el modal
+   * (muestran imagen, descripción, stack y "Ver en vivo").
+   *
+   * ⚠️ PLACEHOLDERS: los textos de `study` de abajo son EJEMPLOS. Reemplazá
+   * `challenge`, `work`, `results` con lo real de cada proyecto y — sobre todo —
+   * los `testimonial` con testimonios verdaderos antes de publicar. Copiá el
+   * mismo patrón a los demás proyectos que quieras destacar.
+   */
+  study?: CaseStudy;
+};
+
+export const projects: Project[] = [
   {
     title: "Restaurant NioCat",
     category: "SaaS",
@@ -78,6 +109,26 @@ export const projects = [
     image: "/projects/niocat-restaurante.png",
     tech: ["Next.js", "React", "Tailwind CSS", "Supabase", "Framer Motion"],
     href: "https://niocat-restaurante.vercel.app/",
+    study: {
+      challenge:
+        "El restaurante llevaba pedidos, mesas e inventario en papel y hojas de cálculo dispersas: errores frecuentes, doble captura y cero visibilidad de las ventas en tiempo real.",
+      work: [
+        "Diseñé y construí el SaaS completo, del frontend al backend, con Next.js y Supabase.",
+        "Módulos de pedidos, control de mesas, inventario y reportes en tiempo real.",
+        "Accesos por rol (mesero, cocina, administración) con actualizaciones en vivo.",
+      ],
+      results: [
+        "Operación 100% digital, sin papel ni doble captura.",
+        "Reportes de ventas e inventario al instante.",
+        "Menos errores en la toma de pedidos.", // ← reemplazar por un número real si lo tenés (ej. "−40% de errores")
+      ],
+      testimonial: {
+        quote:
+          "«Escribe aquí el testimonio real del cliente sobre el proyecto.»",
+        author: "Nombre del cliente",
+        role: "Cargo · Restaurant NioCat",
+      },
+    },
   },
   {
     title: "Fundación Renciende",
@@ -86,6 +137,26 @@ export const projects = [
     image: "/projects/renciendeweb.jpeg",
     tech: ["Next.js", "Supabase", "Tailwind CSS", "PayPal API", "Resend"],
     href: "https://fundacion-renciende.vercel.app/",
+    study: {
+      challenge:
+        "La fundación necesitaba recibir donaciones en línea y mostrar de forma transparente a dónde iba cada aporte, sin depender de procesos manuales.",
+      work: [
+        "Integré pagos con la API de PayPal y confirmaciones automáticas por correo con Resend.",
+        "Panel para gestionar beneficiarios y campañas de recaudación.",
+        "Front público enfocado en confianza y conversión de donantes.",
+      ],
+      results: [
+        "Donaciones en línea automatizadas de punta a punta.",
+        "Gestión transparente de beneficiarios y campañas.",
+        "Comprobantes por correo sin intervención manual.",
+      ],
+      testimonial: {
+        quote:
+          "«Escribe aquí el testimonio real del cliente sobre el proyecto.»",
+        author: "Nombre del cliente",
+        role: "Cargo · Fundación Renciende",
+      },
+    },
   },
   {
     title: "Barber Premium",
@@ -94,6 +165,26 @@ export const projects = [
     image: "/projects/barberpremium.png",
     tech: ["Next.js", "React", "Tailwind CSS", "Supabase"],
     href: "https://niocat-barberpremium.vercel.app/",
+    study: {
+      challenge:
+        "La barbería perdía tiempo (y citas) coordinando la agenda por WhatsApp, sin un lugar único para reservar ni recordatorios automáticos.",
+      work: [
+        "Construí el sistema de reservas y gestión de agenda con Next.js y Supabase.",
+        "Automaticé confirmaciones y el flujo de citas por barbero.",
+        "Interfaz premium alineada a la marca del negocio.",
+      ],
+      results: [
+        "Reservas centralizadas en un solo lugar.",
+        "Menos huecos y cancelaciones de última hora.",
+        "Agenda clara por barbero y por día.",
+      ],
+      testimonial: {
+        quote:
+          "«Escribe aquí el testimonio real del cliente sobre el proyecto.»",
+        author: "Nombre del cliente",
+        role: "Dueño · Barber Premium",
+      },
+    },
   },
   {
     title: "NioOS Terminal",
@@ -161,4 +252,61 @@ export const projects = [
   },
 ];
 
-export const socials = ["LinkedIn", "GitHub", "X / Twitter", "Dribbble"];
+export type Testimonial = {
+  quote: string;
+  author: string;
+  /** cargo · empresa */
+  role: string;
+};
+
+/**
+ * ⚠️ PLACEHOLDERS: reemplazá estos con testimonios REALES de tus clientes
+ * (idealmente de los negocios de NioCat). El avatar usa la inicial del nombre,
+ * así que no necesitás foto. Podés dejar 4-6; el muro se rellena solo.
+ */
+export const testimonials: Testimonial[] = [
+  {
+    quote:
+      "«Escribí aquí lo que dijo tu cliente: cómo fue trabajar con vos y qué resultado obtuvo.»",
+    author: "Nombre Apellido",
+    role: "Dueño · Restaurant NioCat",
+  },
+  {
+    quote:
+      "«Un testimonio breve sobre tu comunicación, cumplimiento de tiempos y calidad de entrega.»",
+    author: "Nombre Apellido",
+    role: "Directora · Fundación Renciende",
+  },
+  {
+    quote:
+      "«Qué problema tenían antes y cómo tu solución lo cambió, en las palabras del cliente.»",
+    author: "Nombre Apellido",
+    role: "Dueño · Barber Premium",
+  },
+  {
+    quote:
+      "«El impacto en su negocio: más reservas, menos tiempo perdido, mejor imagen, etc.»",
+    author: "Nombre Apellido",
+    role: "Gerente · Moto Service Laguna",
+  },
+  {
+    quote:
+      "«Algo sobre el proceso: propuestas, iteraciones, atención al detalle y trato cercano.»",
+    author: "Nombre Apellido",
+    role: "Fundadora · NioCat Nails",
+  },
+  {
+    quote:
+      "«Una recomendación corta y directa que invite a otros a trabajar con vos.»",
+    author: "Nombre Apellido",
+    role: "Cliente · Landing médica",
+  },
+];
+
+export const socials = [
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/evan-morales/" },
+  { label: "GitHub", href: "https://github.com/EvanDavidMS" },
+  { label: "Instagram", href: "https://www.instagram.com/evn.me_/" },
+] as const;
+
+export const contactEmail = "evandavidms@gmail.com";

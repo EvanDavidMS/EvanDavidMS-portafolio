@@ -36,6 +36,28 @@
 
 html {
   scroll-behavior: smooth;
+  /* Always reserve the vertical scrollbar's gutter. Without this, on narrow
+     widths where the content height sits right at the viewport height, the
+     scrollbar flickers on/off — each toggle changes the usable width by the
+     scrollbar's size, which makes the full-bleed canvas background re-lay and
+     jitter. Reserving the gutter keeps the width constant either way. */
+  scrollbar-gutter: stable;
+}
+
+/* Lenis smooth-scroll (overrides scroll-behavior while active; native scroll
+   stays as the fallback under prefers-reduced-motion, when Lenis is off) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+html.lenis {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {
@@ -45,6 +67,132 @@ body {
 ::selection {
   background: rgba(255, 255, 255, 0.18);
   color: #fff;
+}
+
+/* ===== Custom cursor ===== */
+/* Hide the native cursor only once the JS cursor is mounted (class is added by
+   CustomCursor on capable pointers), so touch users keep their default. */
+.has-custom-cursor,
+.has-custom-cursor * {
+  cursor: none !important;
+}
+
+.em-cursor {
+  transition: opacity 0.25s ease;
+}
+/* Position is driven by JS via `transform`; size/fill/press animate via CSS so
+   they never fight the transform. The -50%/-50% keeps each element centered on
+   the pointer as its box grows or shrinks. */
+.em-cursor-ring {
+  width: 34px;
+  height: 34px;
+  will-change: transform;
+  transition: width 0.22s ease, height 0.22s ease, background-color 0.22s ease,
+    border-color 0.22s ease;
+}
+.em-cursor-dot {
+  width: 6px;
+  height: 6px;
+  will-change: transform;
+  transition: width 0.18s ease, height 0.18s ease, opacity 0.18s ease;
+}
+/* over links/buttons: the ring blooms and fills faintly, the dot recedes */
+.em-cursor[data-hover="true"] .em-cursor-ring {
+  width: 54px;
+  height: 54px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+.em-cursor[data-hover="true"] .em-cursor-dot {
+  width: 3px;
+  height: 3px;
+  opacity: 0.5;
+}
+/* press feedback — ring compresses, dot swells */
+.em-cursor[data-down="true"] .em-cursor-ring {
+  width: 26px;
+  height: 26px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.em-cursor[data-down="true"] .em-cursor-dot {
+  width: 9px;
+  height: 9px;
+  opacity: 1;
+}
+
+@property --em-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes emSpin {
+  to {
+    --em-angle: 360deg;
+  }
+}
+
+/* Text Generate Effect — fade + de-blur each word in on load */
+@keyframes emWordIn {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Flip Words — enter animation each time the word swaps */
+@keyframes emFlipIn {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(0.4em);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+/* Aurora — monochrome light veil that slowly breathes/drifts sideways */
+@keyframes emAurora {
+  0%,
+  100% {
+    background-position: 0% 50%, 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%, 60% 50%;
+  }
+}
+
+/* Spotlight — soft light beam eases into place once on load */
+@keyframes emSpotlight {
+  0% {
+    opacity: 0;
+    transform: translate(-64%, -58%) rotate(-38deg) scale(0.62);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -46%) rotate(-38deg) scale(1);
+  }
+}
+
+/* Navbar entrance — drops in + pops with a slight overshoot, fading in. Only
+   animates translateY/scale via `transform`; the -50% X centering stays on
+   Tailwind's `translate` property (Tailwind v4), so the two don't compound. */
+@keyframes emNavIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes emDrift {
@@ -79,6 +227,60 @@ body {
   }
 }
 
+/* Radar ping — expanding ring for the "Disponible" bento card */
+@keyframes emPing {
+  0% {
+    transform: scale(0.32);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+.animate-em-ping {
+  animation: emPing 2.8s cubic-bezier(0.16, 0.8, 0.4, 1) infinite;
+}
+
+/* Marquee (Magic UI) — used by the Skills bento card backgrounds.
+   translate3d + will-change promote each track to its own GPU layer, so the
+   loop doesn't hitch/stutter at the reset boundary. */
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-100% - var(--gap)), 0, 0);
+  }
+}
+@keyframes marquee-vertical {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, calc(-100% - var(--gap)), 0);
+  }
+}
+.animate-marquee {
+  animation: marquee var(--duration) linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration) linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-vertical {
+    animation: none;
+  }
+}
+
 .animate-em-drift {
   animation: emDrift 16s ease-in-out infinite;
 }
@@ -99,29 +301,121 @@ body {
   animation: emPulse 7s ease-in-out infinite;
 }
 
+.animate-em-spin {
+  animation: emSpin var(--em-spin-duration, 5s) linear infinite;
+}
+
+.animate-em-word {
+  opacity: 0;
+  animation: emWordIn 0.85s ease forwards;
+}
+
+.animate-em-nav {
+  /* waits ~1.6s (until the hero has appeared), then a visible drop-in pop */
+  animation: emNavIn 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) 1.6s both;
+}
+
+.animate-em-flip {
+  display: inline-block;
+  animation: emFlipIn 0.5s ease forwards;
+}
+
+.animate-em-spotlight {
+  opacity: 0;
+  animation: emSpotlight 2.4s ease 0.35s forwards;
+}
+
+.animate-em-aurora {
+  animation: emAurora 20s ease-in-out infinite;
+}
+
+/* While the preloader is up, freeze the page's entrance animations at frame 0
+   so they actually play (from the start) once the curtain lifts — instead of
+   running hidden behind the loader and being over before it's revealed. Only
+   the entrance classes are paused; the loader's own spin/pulse keep going. */
+html.is-loading .animate-in,
+html.is-loading .animate-em-nav,
+html.is-loading .animate-em-word,
+html.is-loading .animate-em-flip,
+html.is-loading .animate-em-spotlight {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-em-word {
+    opacity: 1;
+    filter: none;
+    animation: none;
+  }
+  .animate-em-flip {
+    animation: none;
+  }
+  .animate-em-spotlight {
+    opacity: 1;
+    animation: none;
+  }
+  .animate-em-aurora {
+    animation: none;
+  }
+  .animate-em-nav {
+    animation: none;
+  }
+  .animate-em-ping {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ===== LIGHT theme (default :root) — clean bright "white" style ===== */
 :root {
-  --background: #0a0a0a;
-  --foreground: #f5f5f5;
-  --card: #111111;
-  --card-foreground: #f5f5f5;
-  --popover: #141414;
-  --popover-foreground: #f5f5f5;
-  --primary: #f5f5f5;
-  --primary-foreground: #0a0a0a;
-  --secondary: #1a1a1a;
-  --secondary-foreground: #f5f5f5;
-  --muted: #1a1a1a;
-  --muted-foreground: #8a8a8a;
-  --accent: #1a1a1a;
-  --accent-foreground: #f5f5f5;
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: rgba(255, 255, 255, 0.4);
+  /* black tint drives borders/surfaces; kept low so panels read as crisp
+     hairlines on a bright bg rather than muddy gray boxes */
+  --tint: 15 18 24; /* very dark cool-neutral, so alpha surfaces feel cooler/cleaner */
+  --c-bg: #fbfbfc; /* bright near-white, a hair cool */
+  --c-bg-rgb: 251 251 252;
+  --c-surf: #eef0f3; /* light surface (image placeholders) */
+  --c-surf-rgb: 255 255 255;
+  --c-fg: #101319; /* crisp cool near-black */
+  --c-fg-2: #33373f;
+  --c-muted: #646973;
+  --c-faint: #9ea4ad;
+  --spot-op: 0.3; /* dim the hero spotlight so it isn't a dark smudge on white */
+
+  /* shadcn tokens */
+  --background: #fbfbfc;
+  --foreground: #101319;
+  --card: #ffffff;
+  --card-foreground: #101319;
+  --popover: #ffffff;
+  --popover-foreground: #101319;
+  --primary: #14171e; /* near-black button */
+  --primary-foreground: #fbfbfc;
+  --secondary: #eef0f3;
+  --secondary-foreground: #14171e;
+  --muted: #f2f3f5;
+  --muted-foreground: #646973;
+  --accent: #eef0f3;
+  --accent-foreground: #14171e;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: rgba(16, 19, 25, 0.1);
+  --input: rgba(16, 19, 25, 0.12);
+  --ring: rgba(16, 19, 25, 0.32);
   --radius: 1rem;
 }
 
+/* ===== DARK theme ===== */
 .dark {
+  --tint: 255 255 255; /* white-alpha surfaces/borders/glows on dark */
+  --c-bg: #0a0a0a;
+  --c-bg-rgb: 10 10 10;
+  --c-surf: #0e0e0e;
+  --c-surf-rgb: 20 20 20;
+  --c-fg: #f5f5f5;
+  --c-fg-2: #d4d4d4;
+  --c-muted: #8a8a8a;
+  --c-faint: #6f6f6f;
+  --spot-op: 1;
+
   --background: #0a0a0a;
   --foreground: #f5f5f5;
   --card: #111111;
@@ -140,6 +434,19 @@ body {
   --border: rgba(255, 255, 255, 0.08);
   --input: rgba(255, 255, 255, 0.1);
   --ring: rgba(255, 255, 255, 0.4);
+}
+
+/* View Transitions for the animated theme toggler (circular clip-path reveal) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+/* Pin the new-theme snapshot to the collapsed clip-path from frame 0, so it
+   never paints unclipped in the gap before the JS clip-path animation starts
+   (that gap is the "flash then reveal" flicker). */
+html[data-magicui-theme-vt="active"]::view-transition-new(root) {
+  clip-path: var(--magicui-theme-vt-clip-from);
 }
 
 @layer base {

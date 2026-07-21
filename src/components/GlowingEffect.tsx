@@ -48,7 +48,7 @@ export function GlowingEffect({
       )}
       style={
         {
-          background: `radial-gradient(${radius}px circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.85), transparent 70%)`,
+          background: `radial-gradient(${radius}px circle at var(--x, 50%) var(--y, 50%), rgb(var(--tint)/0.85), transparent 70%)`,
           padding: "1px",
           WebkitMask:
             "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
