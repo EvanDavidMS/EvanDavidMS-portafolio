@@ -31,9 +31,7 @@ const description =
   "Construyo interfaces limpias y experiencias que se sienten bien. Portafolio de Evan Morales, desarrollador Frontend / Full-Stack.";
 
 export const metadata: Metadata = {
-  // TODO: reemplazar por el dominio real de deploy (necesario para que las
-  // rutas relativas de og:image se resuelvan a URL absoluta).
-  metadataBase: new URL("https://evanmorales.dev"),
+  metadataBase: new URL("https://evnbox.com"),
   title: "Evan Morales — Full-Stack Developer",
   description,
   keywords: [
@@ -45,7 +43,10 @@ export const metadata: Metadata = {
     "React",
     "TypeScript",
     "portafolio",
-    "Ciudad de México",
+    "Torreón",
+    "Coahuila",
+    "remoto",
+    "México",
   ],
   authors: [{ name: "Evan Morales", url: "https://github.com/EvanDavidMS" }],
   creator: "Evan Morales",

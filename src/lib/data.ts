@@ -151,7 +151,7 @@ export const projects: Project[] = [
           es: "Pasamos del cuaderno a un sistema que controla todo el restaurante desde el celular. Evan entendió cómo trabajamos y lo dejó funcionando sin complicaciones.",
           en: "We went from a notebook to a system that runs the whole restaurant from a phone. Evan understood how we work and got it running with zero hassle.",
         },
-        author: "Ricardo Salazar",
+        author: "Miguel Castañeda",
         role: {
           es: "Gerente · Restaurant NioCat",
           en: "Manager · Restaurant NioCat",
@@ -207,7 +207,7 @@ export const projects: Project[] = [
           es: "Ahora recibimos donativos en línea y cada persona ve a dónde va su aporte. Nos dio una imagen mucho más profesional y confiable.",
           en: "We now receive donations online and each person sees where their contribution goes. It gave us a far more professional, trustworthy image.",
         },
-        author: "Mariana Fuentes",
+        author: "Andrea Irenez",
         role: {
           es: "Directora · Fundación Renciende",
           en: "Director · Fundación Renciende",
@@ -263,7 +263,7 @@ export const projects: Project[] = [
           es: "Dejamos de perder citas por el desorden del WhatsApp. Los clientes reservan solos y la agenda siempre está clara. Trabajo impecable.",
           en: "We stopped losing appointments to the WhatsApp mess. Clients book on their own and the schedule is always clear. Impeccable work.",
         },
-        author: "Diego Herrera",
+        author: "Jonas Sebastian",
         role: {
           es: "Dueño · Barber Premium",
           en: "Owner · Barber Premium",
@@ -378,7 +378,7 @@ export const testimonials: Testimonial[] = [
       es: "Pasamos del cuaderno a un sistema que controla todo el restaurante desde el celular. Evan entendió cómo trabajamos y lo dejó funcionando sin complicaciones.",
       en: "We went from a notebook to a system that runs the whole restaurant from a phone. Evan understood how we work and got it running with zero hassle.",
     },
-    author: "Ricardo Salazar",
+    author: "Miguel Castañeda",
     role: { es: "Gerente · Restaurant NioCat", en: "Manager · Restaurant NioCat" },
   },
   {
@@ -386,7 +386,7 @@ export const testimonials: Testimonial[] = [
       es: "Ahora recibimos donativos en línea y cada persona ve a dónde va su aporte. Nos dio una imagen mucho más profesional y confiable.",
       en: "We now receive donations online and each person sees where their contribution goes. It gave us a far more professional, trustworthy image.",
     },
-    author: "Mariana Fuentes",
+    author: "Andrea Irenez",
     role: { es: "Directora · Fundación Renciende", en: "Director · Fundación Renciende" },
   },
   {
@@ -394,7 +394,7 @@ export const testimonials: Testimonial[] = [
       es: "Dejamos de perder citas por el desorden del WhatsApp. Los clientes reservan solos y la agenda siempre está clara. Trabajo impecable.",
       en: "We stopped losing appointments to the WhatsApp mess. Clients book on their own and the schedule is always clear. Impeccable work.",
     },
-    author: "Diego Herrera",
+    author: "Jonas Sebastian",
     role: { es: "Dueño · Barber Premium", en: "Owner · Barber Premium" },
   },
   {
@@ -402,7 +402,7 @@ export const testimonials: Testimonial[] = [
       es: "El sitio nos dio presencia seria en la Laguna. Cumplió tiempos, propuso ideas y siempre estuvo al pendiente de cada detalle.",
       en: "The site gave us a serious presence in the region. He met deadlines, proposed ideas and stayed on top of every detail.",
     },
-    author: "Gerardo Ramírez",
+    author: "Fernanda Salazar",
     role: { es: "Gerente · Moto Service Laguna", en: "Manager · Moto Service Laguna" },
   },
   {
@@ -410,7 +410,7 @@ export const testimonials: Testimonial[] = [
       es: "Quedó justo como lo imaginaba: elegante y fácil de usar. Mis clientas me dicen que la página se ve preciosa. Súper recomendado.",
       en: "It turned out exactly as I imagined: elegant and easy to use. My clients tell me the site looks gorgeous. Highly recommended.",
     },
-    author: "Alejandra Ríos",
+    author: "Frida Delgadillo",
     role: { es: "Fundadora · NioCat Nails", en: "Founder · NioCat Nails" },
   },
   {
@@ -418,7 +418,7 @@ export const testimonials: Testimonial[] = [
       es: "Desde que tenemos la página llegan más pacientes que agendan solos. Profesional, claro y siempre disponible para dudas.",
       en: "Since we launched the site, more patients arrive and book on their own. Professional, clear and always available for questions.",
     },
-    author: "Dr. Fernando Castro",
+    author: "Miguel Castañeda",
     role: { es: "Cliente · Mi Urólogo Torreón", en: "Client · Mi Urólogo Torreón" },
   },
 ];

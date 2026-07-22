@@ -14,10 +14,10 @@ import { Printer } from "lucide-react";
 
 const contact = {
   name: "Evan David Morales Serrano",
-  location: "Torreón, Coahuila, México",
+  location: "Torreón, Coahuila, México · Remoto en todo México",
   phone: "+52 871 645 8362",
   email: "evandavidms@gmail.com",
-  web: "envbox.com",
+  web: "evnbox.com",
   github: "github.com/EvanDavidMS",
   linkedin: "linkedin.com/in/evan-morales",
   credly: "credly.com/users/evan-david-morales-serrano",

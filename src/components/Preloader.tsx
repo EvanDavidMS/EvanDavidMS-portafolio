@@ -91,8 +91,8 @@ export default function Preloader() {
           <Image
             src="/logo/Logo-Dark.png"
             alt="Logo Evan Morales"
-            width={66}
-            height={66}
+            width={96}
+            height={96}
             priority
             className="object-contain"
           />
