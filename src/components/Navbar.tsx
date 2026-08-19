@@ -62,7 +62,7 @@ export default function Navbar() {
         >
           <span className="relative grid place-items-center w-9 h-9 overflow-hidden rounded-xl border border-[rgb(var(--tint)/0.14)] bg-white shadow-[inset_0_1px_0_rgba(0,0,0,0.06)] shrink-0">
             <Image
-              src="/logo/Logo-Dark.png"
+              src="/logo/Logo-Dark2.png"
               alt="Logo Evan Morales"
               width={30}
               height={30}
@@ -169,134 +169,150 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* ===== Mobile menu overlay ===== */}
+      {/* ===== Mobile menu — full-screen drawer, enters from the right ===== */}
       <div
         className={cn(
-          "md:hidden fixed inset-0 z-40",
+          // sits *under* the floating nav pill (z-50) so the morphing X stays
+          // on top and tappable; overflow-hidden keeps the off-screen panel
+          // from ever widening the page.
+          "md:hidden fixed inset-0 z-40 overflow-hidden",
           open ? "pointer-events-auto" : "pointer-events-none"
         )}
         aria-hidden={!open}
       >
-        {/* dimmed, blurred backdrop */}
+        {/* scrim — only visible while the panel is on its way in/out */}
         <div
           onClick={() => setOpen(false)}
           className={cn(
-            "absolute inset-0 bg-[rgb(var(--c-bg-rgb)/0.55)] backdrop-blur-md transition-opacity duration-500 ease-out",
+            "absolute inset-0 bg-[rgb(var(--c-bg-rgb)/0.6)] backdrop-blur-sm transition-opacity duration-500 ease-out",
             open ? "opacity-100" : "opacity-0"
           )}
         />
 
-        {/* floating panel, aligned under the nav pill */}
+        {/* the panel: 100% of the viewport, slides right → left */}
         <div
           id="mobile-menu"
           className={cn(
-            "absolute top-[84px] left-4 right-4 origin-top overflow-hidden rounded-[28px] border border-[rgb(var(--tint)/0.1)] bg-[rgb(var(--c-surf-rgb)/0.85)] backdrop-blur-2xl backdrop-saturate-150 shadow-[0_24px_70px_-12px_rgba(0,0,0,0.65),inset_0_1px_0_rgb(var(--tint)/0.08)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+            "absolute inset-0 flex h-full w-full flex-col border-l border-[rgb(var(--tint)/0.1)] bg-[rgb(var(--c-surf-rgb)/0.92)] backdrop-blur-2xl backdrop-saturate-150 shadow-[-24px_0_70px_-12px_rgba(0,0,0,0.65)] will-change-transform",
+            // expo-out on the way in (long, settles softly); quicker, tighter
+            // curve on the way out so dismissing never feels sluggish.
             open
-              ? "opacity-100 translate-y-0 scale-100"
-              : "opacity-0 -translate-y-3 scale-[0.97]"
+              ? "translate-x-0 duration-[620ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+              : "translate-x-full duration-[420ms] ease-[cubic-bezier(0.7,0,0.84,0)]",
+            "transition-transform motion-reduce:transition-none"
           )}
         >
-          {/* soft top sheen */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[rgb(var(--tint)/0.05)] to-transparent" />
+          {/* ambient glow bleeding in from the right edge */}
+          <div className="pointer-events-none absolute -right-24 top-0 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgb(var(--tint)/0.10),transparent_70%)] blur-2xl" />
 
-          <div className="relative p-3">
-            {/* header row */}
-            <div className="flex items-center justify-between px-3 pt-1.5 pb-3">
-              <span className="text-[10.5px] font-medium tracking-[0.18em] uppercase text-[var(--c-faint)]">
-                {t.nav.navigation}
-              </span>
-              <span className="flex items-center gap-1.5 text-[10.5px] tracking-[0.06em] uppercase text-[var(--c-muted)]">
-                <span className="w-[6px] h-[6px] rounded-full bg-[var(--c-fg)] shadow-[0_0_8px_rgb(var(--tint)/0.85)] animate-em-pulse-fast" />
-                {t.nav.availableShort}
-              </span>
-            </div>
+          {/* header row — clears the floating nav pill above it */}
+          <div className="relative flex shrink-0 items-center justify-between px-7 pt-[104px] pb-6">
+            <span
+              style={{ transitionDelay: open ? "170ms" : "0ms" }}
+              className={cn(
+                "text-[10.5px] font-medium uppercase tracking-[0.18em] text-[var(--c-faint)] transition-all duration-500 ease-out",
+                open ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"
+              )}
+            >
+              {t.nav.navigation}
+            </span>
+            <span
+              style={{ transitionDelay: open ? "170ms" : "0ms" }}
+              className={cn(
+                "flex items-center gap-1.5 text-[10.5px] uppercase tracking-[0.06em] text-[var(--c-muted)] transition-all duration-500 ease-out",
+                open ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"
+              )}
+            >
+              <span className="h-[6px] w-[6px] rounded-full bg-[var(--c-fg)] shadow-[0_0_8px_rgb(var(--tint)/0.85)] animate-em-pulse-fast" />
+              {t.nav.availableShort}
+            </span>
+          </div>
 
-            {/* nav items */}
-            <nav className="flex flex-col">
-              {navItems.map((item, i) => {
-                const on = item.id === active;
-                return (
-                  <a
-                    key={item.id}
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    style={{
-                      transitionDelay: open ? `${140 + i * 55}ms` : "0ms",
-                    }}
+          {/* nav items — big type, staggered in from the right */}
+          <nav className="relative flex flex-1 flex-col justify-center gap-1 overflow-y-auto px-5">
+            {navItems.map((item, i) => {
+              const on = item.id === active;
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  style={{
+                    // stagger only on the way in; on close everything leaves
+                    // together with the panel.
+                    transitionDelay: open ? `${220 + i * 70}ms` : "0ms",
+                  }}
+                  className={cn(
+                    "group relative flex items-center gap-4 rounded-2xl px-4 py-3.5 transition-all duration-[550ms] ease-[cubic-bezier(0.16,1,0.3,1)]",
+                    open
+                      ? "opacity-100 translate-x-0"
+                      : "opacity-0 translate-x-10",
+                    on
+                      ? "bg-[rgb(var(--tint)/0.07)]"
+                      : "active:bg-[rgb(var(--tint)/0.04)]"
+                  )}
+                >
+                  {/* active accent bar */}
+                  <span
                     className={cn(
-                      "group relative flex items-center gap-3.5 rounded-2xl px-3.5 py-3 transition-all duration-500 ease-out",
-                      open
-                        ? "opacity-100 translate-x-0"
-                        : "opacity-0 -translate-x-2",
-                      on
-                        ? "bg-[rgb(var(--tint)/0.07)]"
-                        : "hover:bg-[rgb(var(--tint)/0.04)]"
+                      "absolute left-0 top-1/2 w-[3px] -translate-y-1/2 rounded-full bg-[var(--c-fg)] transition-all duration-300",
+                      on ? "h-8 opacity-100" : "h-0 opacity-0"
+                    )}
+                  />
+                  <span
+                    className={cn(
+                      "font-serif text-[13px] tabular-nums transition-colors duration-300",
+                      on ? "text-[var(--c-fg)]" : "text-[var(--c-faint)]"
                     )}
                   >
-                    {/* active accent bar */}
-                    <span
-                      className={cn(
-                        "absolute left-0 top-1/2 -translate-y-1/2 w-[3px] rounded-full bg-[var(--c-fg)] transition-all duration-300",
-                        on ? "h-5 opacity-100" : "h-0 opacity-0"
-                      )}
-                    />
-                    <span
-                      className={cn(
-                        "font-serif text-[13px] tabular-nums transition-colors duration-300",
-                        on ? "text-[var(--c-fg)]" : "text-[var(--c-faint)]"
-                      )}
-                    >
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span
-                      className={cn(
-                        "flex-1 text-[17px] font-medium tracking-[-0.01em] transition-colors duration-300",
-                        on
-                          ? "text-[var(--c-fg)]"
-                          : "text-[var(--c-muted)] group-hover:text-[var(--c-fg)]"
-                      )}
-                    >
-                      {t.nav.items[item.id]}
-                    </span>
-                    <ArrowUpRight
-                      size={17}
-                      className={cn(
-                        "transition-all duration-300",
-                        on
-                          ? "text-[var(--c-fg)] opacity-100"
-                          : "text-[var(--c-faint)] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0"
-                      )}
-                    />
-                  </a>
-                );
-              })}
-            </nav>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    className={cn(
+                      "flex-1 text-[30px] font-semibold leading-[1.15] tracking-[-0.02em] transition-colors duration-300",
+                      on ? "text-[var(--c-fg)]" : "text-[var(--c-muted)]"
+                    )}
+                  >
+                    {t.nav.items[item.id]}
+                  </span>
+                  <ArrowUpRight
+                    size={22}
+                    className={cn(
+                      "transition-all duration-300",
+                      on
+                        ? "text-[var(--c-fg)] opacity-100"
+                        : "-translate-x-1 text-[var(--c-faint)] opacity-0"
+                    )}
+                  />
+                </a>
+              );
+            })}
+          </nav>
 
-            {/* divider */}
-            <div className="my-3 h-px bg-[rgb(var(--tint)/0.08)]" />
+          {/* footer: CTA + socials */}
+          <div className="relative shrink-0 px-5 pb-[max(28px,env(safe-area-inset-bottom))] pt-5">
+            <div className="mb-5 h-px bg-[rgb(var(--tint)/0.08)]" />
 
-            {/* CTA */}
             <a
               href="#contact"
               onClick={() => setOpen(false)}
-              style={{ transitionDelay: open ? "460ms" : "0ms" }}
+              style={{ transitionDelay: open ? "560ms" : "0ms" }}
               className={cn(
-                "flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-[15px] font-semibold bg-[var(--c-fg)] text-[var(--c-bg)] shadow-[0_8px_26px_rgb(var(--tint)/0.22)] transition-all duration-500 ease-out active:scale-[0.98]",
-                open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+                "flex items-center justify-center gap-2 rounded-2xl bg-[var(--c-fg)] px-5 py-4 text-[15px] font-semibold text-[var(--c-bg)] shadow-[0_8px_26px_rgb(var(--tint)/0.22)] transition-all duration-500 ease-out active:scale-[0.98]",
+                open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
               )}
             >
               {t.nav.cta}
-              <span className="grid place-items-center w-[20px] h-[20px] rounded-full bg-[var(--c-bg)] text-[var(--c-fg)] text-[12px]">
+              <span className="grid h-[20px] w-[20px] place-items-center rounded-full bg-[var(--c-bg)] text-[12px] text-[var(--c-fg)]">
                 →
               </span>
             </a>
 
-            {/* socials */}
             <div
-              style={{ transitionDelay: open ? "520ms" : "0ms" }}
+              style={{ transitionDelay: open ? "620ms" : "0ms" }}
               className={cn(
-                "mt-3 flex items-center justify-center gap-1 transition-all duration-500 ease-out",
-                open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+                "mt-4 flex items-center justify-center gap-1 transition-all duration-500 ease-out",
+                open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
               )}
             >
               {socials.map((s) => (
@@ -305,7 +321,7 @@ export default function Navbar() {
                   href={s.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-full px-3 py-1.5 text-[12px] font-medium tracking-[0.02em] text-[var(--c-muted)] transition-colors hover:text-[var(--c-fg)] hover:bg-[rgb(var(--tint)/0.05)]"
+                  className="rounded-full px-3 py-1.5 text-[12px] font-medium tracking-[0.02em] text-[var(--c-muted)] transition-colors hover:bg-[rgb(var(--tint)/0.05)] hover:text-[var(--c-fg)]"
                 >
                   {s.label}
                 </a>

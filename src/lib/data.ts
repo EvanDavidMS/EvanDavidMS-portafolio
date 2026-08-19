@@ -104,67 +104,44 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "Restaurant NioCat",
-    category: "SaaS",
+    title: "Salón de Belleza AMARA",
+    category: "Belleza",
     desc: {
-      es: "Sistema operativo y administrativo integral (SaaS) diseñado para optimizar restaurantes.",
-      en: "All-in-one operating and admin system (SaaS) built to streamline restaurants.",
+      es: "Sitio para salón de belleza con catálogo de servicios, portafolio visual y contacto directo para agendar citas.",
+      en: "A beauty salon site with a services catalogue, visual portfolio and direct contact for booking appointments.",
     },
-    image: "/projects/niocat-restaurante.png",
-    tech: ["Next.js", "React", "Tailwind CSS", "Supabase", "Framer Motion"],
-    href: "https://niocat-restaurante.vercel.app/",
-    study: {
-      challenge: {
-        es: "El restaurante llevaba pedidos, mesas e inventario en papel y hojas de cálculo dispersas: errores frecuentes, doble captura y cero visibilidad de las ventas en tiempo real.",
-        en: "The restaurant managed orders, tables and inventory on paper and scattered spreadsheets: frequent mistakes, double data entry and zero real-time visibility into sales.",
-      },
-      work: [
-        {
-          es: "Diseñé y construí el SaaS completo, del frontend al backend, con Next.js y Supabase.",
-          en: "Designed and built the full SaaS, front to back, with Next.js and Supabase.",
-        },
-        {
-          es: "Módulos de pedidos, control de mesas, inventario y reportes en tiempo real.",
-          en: "Modules for orders, table management, inventory and real-time reporting.",
-        },
-        {
-          es: "Accesos por rol (mesero, cocina, administración) con actualizaciones en vivo.",
-          en: "Role-based access (waiter, kitchen, admin) with live updates.",
-        },
-      ],
-      results: [
-        {
-          es: "Operación 100% digital, sin papel ni doble captura.",
-          en: "100% digital operation, no paper or double entry.",
-        },
-        {
-          es: "Reportes de ventas e inventario al instante.",
-          en: "Instant sales and inventory reports.",
-        },
-        {
-          es: "Menos errores en la toma de pedidos.",
-          en: "Fewer errors when taking orders.",
-        },
-      ],
-      testimonial: {
-        quote: {
-          es: "Pasamos del cuaderno a un sistema que controla todo el restaurante desde el celular. Evan entendió cómo trabajamos y lo dejó funcionando sin complicaciones.",
-          en: "We went from a notebook to a system that runs the whole restaurant from a phone. Evan understood how we work and got it running with zero hassle.",
-        },
-        author: "Miguel Castañeda",
-        role: {
-          es: "Gerente · Restaurant NioCat",
-          en: "Manager · Restaurant NioCat",
-        },
-      },
+    image: "/projects/amara.png",
+    tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
+    href: "https://niocat-amara.vercel.app/",
+  },
+  {
+    title: "Barbería Casa Navaja",
+    category: "Belleza",
+    desc: {
+      es: "Sitio para barbería clásica en Madrid con tarifas transparentes, perfiles del equipo y reserva de cita en línea con confirmación por WhatsApp.",
+      en: "A site for a classic Madrid barbershop with transparent pricing, team profiles and online booking confirmed over WhatsApp.",
     },
+    image: "/projects/casanavaja.png",
+    tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
+    href: "https://niocat-casanavaja.vercel.app/",
+  },
+  {
+    title: "HappyDog",
+    category: "Veterinaria",
+    desc: {
+      es: "Sitio para clínica veterinaria con agendado de citas en línea, historia clínica por paciente y urgencias disponibles las 24 horas.",
+      en: "A veterinary clinic site with online appointment booking, per-patient medical records and 24/7 emergency access.",
+    },
+    image: "/projects/happydog.png",
+    tech: ["Next.js", "React", "Tailwind CSS", "Supabase"],
+    href: "https://niocat-happydog.vercel.app/",
   },
   {
     title: "Fundación Renciende",
-    category: "Web Platform",
+    category: "Causa social",
     desc: {
-      es: "Plataforma integral de recaudación de fondos y gestión transparente de beneficiarios.",
-      en: "End-to-end fundraising platform with transparent beneficiary management.",
+      es: "Plataforma para recaudar fondos y administrar beneficiarios de forma transparente, con donativos y reportes 100% digitales.",
+      en: "A platform to raise funds and manage beneficiaries transparently, with fully digital donations and reporting.",
     },
     image: "/projects/renciendeweb.jpeg",
     tech: ["Next.js", "Supabase", "Tailwind CSS", "PayPal API", "Resend"],
@@ -190,8 +167,8 @@ export const projects: Project[] = [
       ],
       results: [
         {
-          es: "Donaciones en línea automatizadas de punta a punta.",
-          en: "Fully automated online donations, end to end.",
+          es: "100% de los donativos digitalizados, de punta a punta.",
+          en: "100% of donations digitized, end to end.",
         },
         {
           es: "Gestión transparente de beneficiarios y campañas.",
@@ -216,11 +193,11 @@ export const projects: Project[] = [
     },
   },
   {
-    title: "Barber Premium",
-    category: "SaaS",
+    title: "BarberPremium",
+    category: "Belleza",
     desc: {
-      es: "Sistema avanzado de gestión y automatización diseñado para barberías exclusivas.",
-      en: "Advanced management and automation system built for premium barbershops.",
+      es: "Gestión y automatización para barberías: citas en tiempo real, control de inventario y fidelización de clientes en un solo panel.",
+      en: "Management and automation for barbershops: real-time appointments, inventory control and client loyalty in a single dashboard.",
     },
     image: "/projects/barberpremium.png",
     tech: ["Next.js", "React", "Tailwind CSS", "Supabase"],
@@ -236,8 +213,8 @@ export const projects: Project[] = [
           en: "Built the booking and schedule-management system with Next.js and Supabase.",
         },
         {
-          es: "Automaticé confirmaciones y el flujo de citas por barbero.",
-          en: "Automated confirmations and the per-barber appointment flow.",
+          es: "Automaticé confirmaciones, control de inventario y el flujo de citas por barbero.",
+          en: "Automated confirmations, inventory control and the per-barber appointment flow.",
         },
         {
           es: "Interfaz premium alineada a la marca del negocio.",
@@ -246,8 +223,8 @@ export const projects: Project[] = [
       ],
       results: [
         {
-          es: "Reservas centralizadas en un solo lugar.",
-          en: "Bookings centralized in one place.",
+          es: "Agenda 100% automatizada, sin registro manual de citas.",
+          en: "100% automated scheduling, with no manual appointment logging.",
         },
         {
           es: "Menos huecos y cancelaciones de última hora.",
@@ -265,62 +242,29 @@ export const projects: Project[] = [
         },
         author: "Jonas Sebastian",
         role: {
-          es: "Dueño · Barber Premium",
-          en: "Owner · Barber Premium",
+          es: "Dueño · BarberPremium",
+          en: "Owner · BarberPremium",
         },
       },
     },
   },
   {
-    title: "NioOS Terminal",
-    category: "Web OS",
-    desc: {
-      es: "Simulador avanzado de entorno de escritorio interactivo ejecutado nativamente sobre el navegador web.",
-      en: "Advanced interactive desktop-environment simulator running natively in the browser.",
-    },
-    image: "/projects/nioOSweb.jpeg",
-    tech: ["Next.js", "React", "TypeScript", "Framer Motion"],
-    href: "https://nioos.vercel.app/",
-  },
-  {
-    title: "NioCat Web Engine",
-    category: "Corporate",
-    desc: {
-      es: "Estructura digital de la agencia enfocada en la presentación de servicios de software premium.",
-      en: "The agency's digital home, focused on presenting premium software services.",
-    },
-    image: "/projects/niocatweb.jpeg",
-    tech: ["Next.js", "TypeScript", "Tailwind CSS"],
-    href: "https://niocatweb.vercel.app/",
-  },
-  {
     title: "David Morales Portfolio",
-    category: "Creative Portfolio",
+    category: "Portafolio",
     desc: {
-      es: "Portafolio de diseño interactivo de alta gama basado en una estética oscura premium.",
-      en: "High-end interactive design portfolio built around a premium dark aesthetic.",
+      es: "Portafolio de diseño de alta gama con estética oscura y minimalista, pensado para mostrar marca personal con impacto inmediato.",
+      en: "A high-end design portfolio with a dark, minimal aesthetic, built to showcase a personal brand with immediate impact.",
     },
     image: "/projects/blackmeatweb.jpeg",
     tech: ["Next.js", "React", "Tailwind CSS"],
     href: "https://david-morales-black-meat.vercel.app/",
   },
   {
-    title: "Fer Portfolio",
-    category: "Creative Portfolio",
-    desc: {
-      es: "Espacio digital interactivo diseñado a medida para exhibir proyectos creativos.",
-      en: "A bespoke interactive digital space to showcase creative projects.",
-    },
-    image: "/projects/fernandaportafolioweb.jpeg",
-    tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
-    href: "https://fersita-portafolio.vercel.app/",
-  },
-  {
     title: "Mi Urólogo Torreón",
-    category: "Medical Landing Page",
+    category: "Salud",
     desc: {
-      es: "Plataforma web médica enfocada en la conversión de pacientes y agendamiento de citas.",
-      en: "Medical web platform focused on patient conversion and appointment booking.",
+      es: "Landing médica pensada para convertir visitantes en pacientes, con agendado directo y posicionamiento local en Google.",
+      en: "A medical landing page built to turn visitors into patients, with direct booking and local Google ranking.",
     },
     image: "/projects/miurologotorreon.jpeg",
     tech: ["Next.js", "Tailwind CSS", "React"],
@@ -328,10 +272,10 @@ export const projects: Project[] = [
   },
   {
     title: "NioCat Nails & Aesthetics",
-    category: "Landing Page",
+    category: "Belleza",
     desc: {
-      es: "Sitio web corporativo y catálogo digital premium para un salón de manicura y estética.",
-      en: "Corporate website and premium digital catalog for a nail and aesthetics salon.",
+      es: "Sitio elegante para un salón de belleza, con catálogo de trabajos y todos sus canales de contacto centralizados.",
+      en: "An elegant site for a beauty salon, with a work catalogue and every contact channel in one place.",
     },
     image: "/projects/niocat-unas.jpeg",
     tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
@@ -339,25 +283,14 @@ export const projects: Project[] = [
   },
   {
     title: "Moto Service Laguna",
-    category: "Landing Page",
+    category: "Automotriz",
     desc: {
-      es: "Sitio web corporativo para un centro especializado en mantenimiento de motocicletas.",
-      en: "Corporate website for a specialized motorcycle-maintenance center.",
+      es: "Sitio corporativo para un taller de motos: servicios, marcas y contacto directo por WhatsApp en un solo lugar.",
+      en: "A corporate site for a motorcycle workshop: services, brands and direct WhatsApp contact all in one place.",
     },
     image: "/projects/motoservicelaguna.jpeg",
     tech: ["Next.js", "Tailwind CSS", "React"],
     href: "https://motoservicelaguna.com/",
-  },
-  {
-    title: "Barbería Demian",
-    category: "SaaS",
-    desc: {
-      es: "Aplicación web premium para la gestión automatizada de citas y control de agenda.",
-      en: "Premium web app for automated appointment management and schedule control.",
-    },
-    image: "/projects/barberdemianweb.jpeg",
-    tech: ["Next.js", "React", "Tailwind CSS", "Framer Motion", "Supabase"],
-    href: "https://barberia-demian.vercel.app/",
   },
 ];
 
@@ -395,7 +328,7 @@ export const testimonials: Testimonial[] = [
       en: "We stopped losing appointments to the WhatsApp mess. Clients book on their own and the schedule is always clear. Impeccable work.",
     },
     author: "Jonas Sebastian",
-    role: { es: "Dueño · Barber Premium", en: "Owner · Barber Premium" },
+    role: { es: "Dueño · BarberPremium", en: "Owner · BarberPremium" },
   },
   {
     quote: {

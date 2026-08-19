@@ -89,7 +89,7 @@ export default function Preloader() {
 
         <div className="relative grid h-[88px] w-[88px] place-items-center overflow-hidden rounded-[18px] border border-[rgb(var(--tint)/0.12)] bg-white shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
           <Image
-            src="/logo/Logo-Dark.png"
+            src="/logo/Logo-Dark2.png"
             alt="Logo Evan Morales"
             width={96}
             height={96}
